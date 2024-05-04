@@ -33,7 +33,8 @@ export const remove = async (request, response) => {
         )
     }
 
-    // deleteWith = everyone oe deleteMe
+    /* Task 5: 'Delete for Me' Feature
+       Implement a feature to allow users to delete their own messages. */
     if (deleteWith === 'me') {
         await MessageVisibilityModel.update({
             params: {
@@ -45,7 +46,9 @@ export const remove = async (request, response) => {
             },
         })
     }
-
+    /* Task 6: 'Delete for Everyone' Feature
+      Develop a feature to allow users to delete messages for everyone in the   
+       chat */
     if (deleteWith === 'everyone') {
         await MessageModel.destroy({
             where: {

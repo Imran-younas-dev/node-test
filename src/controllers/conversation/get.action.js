@@ -13,6 +13,10 @@ export const get = async (request, response) => {
     let usersFilter = {}
     let messagesFilter = {}
 
+    /* implement a search feature similar to WhatsApp: 
+     Search should include users and messages
+     Display relevant results based on user input
+    */
     keyword = keyword?.trim()
     if (keyword) {
         usersFilter = {
