@@ -40,7 +40,7 @@ export default (sequelize, DataTypes) => {
                     },
                 },
             },
-            chat_id: {
+            conversation_id: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 allowNull: false,
                 validate: {

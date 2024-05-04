@@ -1,6 +1,6 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('Message_visibility', {
+        await queryInterface.createTable('message_visibilities', {
             id: {
                 type: Sequelize.INTEGER.UNSIGNED,
                 autoIncrement: true,
@@ -31,6 +31,6 @@ module.exports = {
         })
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Message_visibility')
+        await queryInterface.dropTable('message_visibilities')
     },
 }

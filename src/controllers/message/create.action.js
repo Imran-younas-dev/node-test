@@ -24,7 +24,7 @@ export const create = async (request, response) => {
         )
     }
 
-    body.chat_id = conversation.id
+    body.conversation_id = conversation.id
     body.sender_id = user.id
 
     const message = await MessageModel.create(request)

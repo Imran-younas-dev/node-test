@@ -4,6 +4,7 @@ import { ConversationModel, MessageModel, UserModel } from '../../models'
 export const get = async (request, response) => {
     let {
         query: { keyword, orderBy, order },
+        user: { id },
     } = request
 
     if (!order) request.query.order = 'ASC'
@@ -27,6 +28,12 @@ export const get = async (request, response) => {
     }
 
     const data = await ConversationModel.paginate(request, {
+        where: {
+            [Op.or]: {
+                sender_id: id,
+                reciever_id: id,
+            },
+        },
         include: [
             {
                 model: UserModel,

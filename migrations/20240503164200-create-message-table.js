@@ -24,7 +24,7 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            chat_id: {
+            conversation_id: {
                 type: Sequelize.INTEGER.UNSIGNED,
                 allowNull: false,
                 // references: {

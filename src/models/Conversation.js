@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
                 onUpdate: 'CASCADE',
             })
             this.hasMany(sequelize.models.messages, {
-                foreignKey: 'chat_id',
+                foreignKey: 'conversation_id',
                 sourceKey: 'id',
                 as: 'messages',
                 onDelete: 'RESTRICT',
