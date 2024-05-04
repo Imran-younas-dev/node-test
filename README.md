@@ -23,15 +23,16 @@ npm install
 Copy the `.env.example` file to create a `.env` file and update it with your local settings:
 
 ```bash
-cp .env.example .env
+cp NODE_ENV=local
+PORT=3001
+MYSQL_DB_HOST=localhost
+MYSQL_DB_USERNAME=root
+MYSQL_DB_PASSWORD=
+MYSQL_DB_NAME=
+TOKEN_EXPIRATION_TIME=30
+TOKEN_EXPIRATION_TIME_REMEMBER_ME=300
 ```
 
-Required environment variables:
-
-- `PORT`: The port on which the server will run.
-- `DB_CONNECTION_STRING`: Your database connection string.
-- `SENTRY_DSN`: The DSN for Sentry monitoring.
-- Other variables as needed for your application.
 
 ### Database Migrations
 
@@ -54,7 +55,7 @@ npm run seed
 Start the server with:
 
 ```bash
-npm start
+npm run dev
 ```
 
 ## API Endpoints
