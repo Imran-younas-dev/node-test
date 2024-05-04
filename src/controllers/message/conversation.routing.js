@@ -1,6 +1,6 @@
 import { get } from './get.action'
 import { create } from './create.action'
-import { remove } from './delete-for-me.action'
+import { remove } from './remove.action'
 
 import { validate } from '../../validators/message'
 import { validateEnum } from '../../validators/enum'

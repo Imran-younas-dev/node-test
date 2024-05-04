@@ -144,7 +144,7 @@ import { createClient } from './config/redis'
         // eslint-disable-next-line no-console
         console.log('Connected to socket.io')
         socket.on('setup', (userData) => {
-            socket.join(userData._id)
+            socket.join(userData.id)
             socket.emit('connected')
         })
 
@@ -156,23 +156,25 @@ import { createClient } from './config/redis'
         socket.on('typing', (room) => socket.in(room).emit('typing'))
         socket.on('stop typing', (room) => socket.in(room).emit('stop typing'))
 
-        socket.on('new message', (newMessageRecieved) => {
-            const chat = newMessageRecieved.chat
+        socket.on('new message', (newMessageReceived) => {
+            // Assuming `newMessageReceived` includes `recipientId` which is the ID of the other user in the chat
+            const { reciever_id: recieverId } = newMessageReceived
 
-            // eslint-disable-next-line no-console
-            if (!chat.users) return console.log('chat.users not defined')
+            // Check if the recipient ID is defined
+            if (!recieverId) {
+                // eslint-disable-next-line no-console
+                console.log('Recipient ID not defined')
+                return
+            }
 
-            chat.users.forEach((user) => {
-                if (user._id == newMessageRecieved.sender._id) return
-
-                socket.in(user._id).emit('message recieved', newMessageRecieved)
-            })
+            // Emit the message to the recipient's specific room
+            socket.to(recieverId).emit('message received', newMessageReceived)
         })
 
         socket.off('setup', (userData) => {
             // eslint-disable-next-line no-console
             console.log('USER DISCONNECTED')
-            socket.leave(userData._id)
+            socket.leave(userData.id)
         })
     })
 })()
