@@ -43,8 +43,8 @@ export const login = async (request, response) => {
     }
 
     if (
-        user.password &&
-        !bcrypt.compareSync(password.toString(), user.password)
+        user?.password &&
+        !bcrypt.compareSync(password.toString(), user?.password)
     ) {
         throw new AppValidationError(
             translate('errors', 'credentials.invalid'),

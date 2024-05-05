@@ -3,9 +3,7 @@ import lumie from 'lumie'
 import dotenv from 'dotenv'
 import express from 'express'
 import bodyParser from 'body-parser'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import rateLimit from 'express-rate-limit'
-
 import * as Sentry from '@sentry/node'
 import * as Tracing from '@sentry/tracing'
 
@@ -124,57 +122,12 @@ import { createClient } from './config/redis'
      */
     const port = process.env.PORT || 3000
 
+    const server = require('./config/socket')(app)
     /**
      * listen to the exposed port
      */
-    const server = app.listen(port, () => {
+    server.listen(port, () => {
         // eslint-disable-next-line
         console.log('App server started on port ' + port)
-    })
-
-    const io = require('socket.io')(server, {
-        pingTimeout: 60000,
-        cors: {
-            origin: 'http://localhost:3000',
-            // credentials: true,
-        },
-    })
-
-    io.on('connection', (socket) => {
-        // eslint-disable-next-line no-console
-        console.log('Connected to socket.io')
-        socket.on('setup', (userData) => {
-            socket.join(userData.id)
-            socket.emit('connected')
-        })
-
-        socket.on('join chat', (room) => {
-            socket.join(room)
-            // eslint-disable-next-line no-console
-            console.log('User Joined Room: ' + room)
-        })
-        socket.on('typing', (room) => socket.in(room).emit('typing'))
-        socket.on('stop typing', (room) => socket.in(room).emit('stop typing'))
-
-        socket.on('new message', (newMessageReceived) => {
-            // Assuming `newMessageReceived` includes `recipientId` which is the ID of the other user in the chat
-            const { reciever_id: recieverId } = newMessageReceived
-
-            // Check if the recipient ID is defined
-            if (!recieverId) {
-                // eslint-disable-next-line no-console
-                console.log('Recipient ID not defined')
-                return
-            }
-
-            // Emit the message to the recipient's specific room
-            socket.to(recieverId).emit('message received', newMessageReceived)
-        })
-
-        socket.off('setup', (userData) => {
-            // eslint-disable-next-line no-console
-            console.log('USER DISCONNECTED')
-            socket.leave(userData.id)
-        })
     })
 })()
